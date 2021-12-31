@@ -37,6 +37,33 @@ class LinkedList:
         self.head = None
         self.tail = None
 
+    def insert_after(self, previous_node, data):
+        """링크드 리스트 주어진 노드 뒤 삽입 연산 메소드
+        주어진 노드 뒤에 삽입되기 때문에 이 메소드로 head 앞에 삽입할 순 없다."""
+        new_node = Node(data)
+        
+        # tail 노드 다음에 삽입하는 경우
+        if previous_node is self.tail:
+            self.tail.next = new_node
+            self.tail = new_node
+        
+        else:
+            new_node.next = previous_node.next
+            previous_node.next = new_node
+    
+    def prepend(self, data):
+        """링크드 리스트의 가장 앞에 데이터 삽입"""
+        new_node = Node(data)
+        
+        # 링크드 리스트가 비어 있는 경우
+        if self.head is None:
+            self.tail = new_node
+        
+        else:
+            new_node.next = self.head
+            
+        self.head = new_node
+
     def find_node_at(self, index) -> int:
         """링크드 리스트 접근 연산 메소드. 인덱스 리턴. 파라미터 인덱스는 항상 있다고 가정"""
         iterator = self.head
@@ -109,4 +136,11 @@ print('=======================================================')
 print('접근 메소드 작동 확인')
 print(my_list.find_node_at(3).data)
 my_list.find_node_at(2).data = 13
+print(my_list)
+
+
+print('=======================================================')
+print('insert 메소드 작동 확인')
+temp_node = my_list.find_node_at(3)
+my_list.insert_after(temp_node, 100)
 print(my_list)
