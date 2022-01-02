@@ -51,6 +51,39 @@ class LinkedList:
             new_node.next = previous_node.next
             previous_node.next = new_node
     
+    def delete_after(self, previous_node):
+        """링크드 리스트 삭제연산. 주어진 노드 뒤 노드 삭제하고, 그 뒤 노드를 연결"""
+        
+        data = previous_node.next.data
+
+        # tail node를 지울 때
+        if previous_node.next is self.tail:
+            previous_node.next = None
+            self.tail = previous_node
+
+        # 두 노드 사이 노드를 지울 때
+        else:
+            # 끊어진 노드는 생각할 필요 없음
+            previous_node.next = previous_node.next.next
+
+        return data
+
+
+    def pop_left(self):
+        """링크드 리스트의 가장 앞 노드 삭제 메소드. 단, 링크드 리스트에 항상 노드가 있다고 가정"""
+        data = self.head.data
+        
+        # 링크드 리스트에 헤드만 있는 경우
+        if self.head.next is None:
+            self.head = None
+            self.tail = None
+            
+        else:
+            self.head = self.head.next
+            
+        return data
+
+    
     def prepend(self, data):
         """링크드 리스트의 가장 앞에 데이터 삽입"""
         new_node = Node(data)
@@ -143,4 +176,9 @@ print('=======================================================')
 print('insert 메소드 작동 확인')
 temp_node = my_list.find_node_at(3)
 my_list.insert_after(temp_node, 100)
+print(my_list)
+
+print('=======================================================')
+print('delete 메소드 작동 확인')
+print('지워진 데이터 :', my_list.delete_after(my_list.find_node_at(3)))
 print(my_list)
