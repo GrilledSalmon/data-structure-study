@@ -71,6 +71,7 @@ class LinkedList:
         
         return res_str
 
+
 if __name__ == '__main__':
     my_list = LinkedList()
     my_list.append('윤우', 28)
