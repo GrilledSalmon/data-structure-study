@@ -1,3 +1,5 @@
+# 힙 정렬
+
 def swap(tree, index_1, index_2):
     """완전 이진 트리의 노드 index_1과 노드 index_2의 위치를 바꿔준다"""
     temp = tree[index_1]
@@ -29,8 +31,7 @@ def heapify(tree, index, tree_size):
 def heapsort(tree):
     """힙 정렬 함수"""
     tree_size = len(tree)
-
-    # 코드를 쓰세요
+    
     # 1. tree를 힙으로 만들기
     for i in range(tree_size - 1, 0, -1):
         heapify(tree, i, tree_size)
