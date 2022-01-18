@@ -68,6 +68,70 @@ class BinarySearchTree:
         # data를 찾지 못해서 while 문이 끝남
         return None
 
+    def delete(self, data):
+        """이진 탐색 트리 삭제 메소드"""
+        node_to_delete = self.search(data)  # 삭제할 노드를 가지고 온다
+        parent_node = node_to_delete.parent  # 삭제할 노드의 부모 노드
+
+        # 경우 1: 지우려는 노드가 leaf 노드일 때
+        if node_to_delete.left_child is None and node_to_delete.right_child is None:
+            if parent_node is None: # node_to_delete가 root 노드인 경우
+                self.root = None
+            else: # node_to_delete가 root node가 아닌 경우
+                if parent_node.left_child: # left_child가 leaf 노드인 경우
+                    parent_node.left_child = None
+                else: # right_child가 leaf 노드인 경우
+                    parent_node.right_child = None
+
+        # 경우 2: 지우려는 노드가 자식이 하나인 노드일 때:
+        elif node_to_delete.left_child is None or node_to_delete.right_child is None:
+            if node_to_delete is self.root: # 삭제하려는 게 root 노드라면
+                if node_to_delete.right_child: # 오른쪽 자식이 살아 있는 경우
+                    self.root = node_to_delete.right_child
+                    node_to_delete.right_child.parent = None
+                else: # 왼쪽 자식이 살아 있는 경우
+                    self.root = node_to_delete.left_child
+                    node_to_delete.left_child.parent = None
+                    
+            # 삭제하려는 노드가 left_child가 있는 경우
+            elif node_to_delete.left_child:
+                # 삭제하려는 노드가 parent_node의 왼쪽 자식인 경우
+                if parent_node.left_child is node_to_delete:
+                    parent_node.left_child = node_to_delete.left_child
+                    node_to_delete.left_child.parent = parent_node
+                # 삭제하려는 노드가 parent_node의 오른쪽 자식인 경우
+                else:
+                    parent_node.right_child = node_to_delete.left_child
+                    node_to_delete.left_child.parent = parent_node
+            
+            # 삭제하려는 노드가 right_child가 있는 경우
+            else:
+                # 삭제하려는 노드가 parent_node의 왼쪽 자식인 경우
+                if parent_node.left_child is node_to_delete:
+                    parent_node.left_child = node_to_delete.right_child
+                    node_to_delete.right_child.parent = parent_node
+                # 삭제하려는 노드가 parent_node의 오른쪽 자식인 경우
+                else:
+                    parent_node.right_child = node_to_delete.right_child
+                    node_to_delete.right_child.parent = parent_node
+
+        # 경우 3: 지우려는 노드가 2개의 자식이 있을 때
+        else:
+            successor = self.find_min(node_to_delete.right_child) # staticmethod 이렇게 쓰는 거 맞나..?
+            node_to_delete.data = successor.data
+            
+            # successor 부모 노드의 자식 새로 지정하기(successor의 right_child가 있는지 없는지는 여기서 신경쓰지 않아도 된다.)
+            # successor가 부모 노드의 right_child인 경우
+            if successor.parent.right_child is successor:
+                successor.parent.right_child = successor.right_child
+            # successor가 부모 노드의 left_child인 경우
+            else:
+                successor.parent.left_child = successor.right_child
+            
+            # successor의 right_child가 존재하는 경우
+            if successor.right_child:
+                successor.right_child.parent = successor.parent
+        
 
     @staticmethod # 정적메소드(인스턴스 없이 사용 가능한 메소드에서 self 없음)
     def find_min(node):
