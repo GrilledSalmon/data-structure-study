@@ -17,7 +17,7 @@ station_3 = StationNode("서울역", 16)
 # 얘를 통해 각 노드에 고유한 index가 배정되기 때문에 각 노드에 바로 접근 가능
 stations = [station_0, station_1, station_2, station_3]
 
-# 해시 테이블을 이용해 역 이름을 가지고 바로 노드에 접근 가능
+# 딕셔너리를 이용해 역 이름을 가지고 바로 노드에 접근 가능
 # but, key가 겹치지 않도록 주의해야 함.
 stations2 = {
     "교대역" : station_0,
@@ -25,3 +25,6 @@ stations2 = {
     "종로3가역" : station_2,
     "서울역" : station_3
 }
+
+node_1 = stations["교대역"]
+node_2 = stations["서울역"]
