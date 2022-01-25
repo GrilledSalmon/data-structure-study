@@ -4,6 +4,7 @@ class StationNode:
         self.station_name = station_name
         self.adjacent_stations = []
         self.visited = False
+        self.predecessor = None
 
     def add_connection(self, station):
         """파라미터로 받은 역과 엣지를 만들어주는 메소드"""
